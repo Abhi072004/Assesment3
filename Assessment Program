@@ -1,0 +1,37 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.24;
+
+contract Assesment3 {
+    mapping(address => uint256) private balances;
+
+    function deposit() public payable {
+        require(msg.value > 0, "Amount must be greater than 0");        
+        balances[msg.sender] += msg.value;
+    }
+
+    function getBalance() public view returns (uint256) {
+        return balances[msg.sender];
+    }
+
+    function testAssert() public view {
+        assert(!(balances[msg.sender] < 0));
+
+        assert(balances[msg.sender] != 0);
+    }
+
+    function transfer(address user, uint256 amount) public payable{
+        if(amount <= 0){
+            revert("Amount must be greater than zero");
+        }
+        else if (balances[msg.sender] < amount){
+            revert("Not enough tokens to send");
+        }
+        else if (amount > 100) {
+            revert("Cannot send more than 100 ethers at a time");
+        }
+        else{
+            balances[msg.sender] -= amount;
+            balances[user] += amount;
+        }
+    }
+}
