@@ -4,22 +4,16 @@ pragma solidity 0.8.24;
 contract Assesment3 {
     mapping(address => uint256) private balances;
 
+    // deposit in sender's account
+    // use of require() function
     function deposit() public payable {
         require(msg.value > 0, "Amount must be greater than 0");        
         balances[msg.sender] += msg.value;
     }
 
-    function getBalance() public view returns (uint256) {
-        return balances[msg.sender];
-    }
-
-    function testAssert() public view {
-        assert(!(balances[msg.sender] < 0));
-
-        assert(balances[msg.sender] != 0);
-    }
-
-    function transfer(address user, uint256 amount) public payable{
+    // transferring from sender account
+    // use of revert() function
+    function transfer(address user, uint256 amount) public{
         if(amount <= 0){
             revert("Amount must be greater than zero");
         }
@@ -33,5 +27,17 @@ contract Assesment3 {
             balances[msg.sender] -= amount;
             balances[user] += amount;
         }
+    }
+
+    //balance of sender
+    function getBalance() public view returns (uint256) {
+        return balances[msg.sender];
+    }
+
+    //use of assert() function
+    function testAssert() public view {
+        assert(!(balances[msg.sender] < 0));
+
+        // assert(balances[msg.sender] != 0);
     }
 }
